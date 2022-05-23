@@ -24,35 +24,33 @@ const pAequorFactory = (specimenNum, dna) => {
               newBase = returnRandBase();
             } while (currentBase === newBase);
             if (currentBase !== newBase) {
-            //replaces the dna with mutated dna
               this.dna.splice(randomBase, 1, newBase);
             }
             return this.dna;   
             },
+            //compares two DNA strands
     compareDNA(pAequorTwo) {
             let count = 0;
-            //count for elements in DNA
             for (let i = 0; i < this.dna.length; i++){
                 if (this.dna[i] === pAequorTwo.dna[i]) {
                   count++
                 }                     
             }
-            console.log(count);  
+            //console.log(count);  
             console.log(`Specimen ${this.specimenNum} and Specimen ${pAequorTwo.specimenNum} have ${(count / this.dna.length * 100).toFixed()}% DNA in common.`);
             },
-            //The specimens that are likely to survive with the DNA 'C' or 'G' greater than 60 percent
+            //if 'C' or 'G' appear over 60% of the time in a DNA strand it is likely to survive
             willLikelySurvive() {
               let percentage = 0
               let surviveCount = 0;
-              //creates a loop checking how many occurances of C or G
+              //counts the occurances of C || G
               for(let i = 0; i < this.dna.length; i++) {
                 if(this.dna[i] ==='C'|| this.dna[i] === 'G'){
                   surviveCount++
                     }
                   }
-                  //calculate percentage of C or G found in a DNA strand
                   percentage = surviveCount * 100 / this.dna.length;
-                  console.log(percentage);
+                  //console.log(percentage);
                   if(percentage >= 60) {
                     return true;
                   } else {
@@ -62,24 +60,22 @@ const pAequorFactory = (specimenNum, dna) => {
   }
 }
 
+//return an array of DNA strands that are likely to survive. 
 let specimens = [];
 let x = 1; 
-//return 30 instances of pAquer
 while (specimens.length < 30) {
   let newSpecimens = pAequorFactory( x ,mockUpStrand())
   if (newSpecimens.willLikelySurvive() === true) {
     specimens.push(newSpecimens);
     x++
-  }
- }
+    }
+}
   console.log(specimens);
-
-//console.log(pAequorArr);
           
 
 /*const pAequor = pAequorFactory(1,mockUpStrand());
 console.log(pAequor.dna);
-const pAequorTwo = pAequorFactory(2,mockUpStrand());
+const pAequorTwo = pAequorFactory(30,mockUpStrand());
 console.log(pAequorTwo.dna);
 pAequor.compareDNA(pAequorTwo);
 console.log(pAequor.willLikelySurvive());*/
