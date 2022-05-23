@@ -1,0 +1,85 @@
+// Returns a random DNA base
+const returnRandBase = () => {
+  const dnaBases = ['A', 'T', 'C', 'G']
+  return dnaBases[Math.floor(Math.random() * 4)] 
+}
+// Returns a random single stand of DNA containing 15 bases
+const mockUpStrand = () => {
+  const newStrand = []
+  for (let i = 0; i < 15; i++) {
+    newStrand.push(returnRandBase())
+  }
+  return newStrand
+}
+
+const pAequorFactory = (specimenNum, dna) => {
+  return {
+    specimenNum, 
+    dna,
+    mutate() {
+            let randomBase = Math.floor(Math.random() * this.dna.length); 
+            let currentBase = this.dna[randomBase]; 
+            let newBase = '';
+            do {
+              newBase = returnRandBase();
+            } while (currentBase === newBase);
+            if (currentBase !== newBase) {
+            //replaces the dna with mutated dna
+              this.dna.splice(randomBase, 1, newBase);
+            }
+            return this.dna;   
+            },
+    compareDNA(pAequorTwo) {
+            let count = 0;
+            //count for elements in DNA
+            for (let i = 0; i < this.dna.length; i++){
+                if (this.dna[i] === pAequorTwo.dna[i]) {
+                  count++
+                }                     
+            }
+            console.log(count);  
+            console.log(`Specimen ${this.specimenNum} and Specimen ${pAequorTwo.specimenNum} have ${(count / this.dna.length * 100).toFixed()}% DNA in common.`);
+            },
+            //The specimens that are likely to survive with the DNA 'C' or 'G' greater than 60 percent
+            willLikelySurvive() {
+              let percentage = 0
+              let surviveCount = 0;
+              //creates a loop checking how many occurances of C or G
+              for(let i = 0; i < this.dna.length; i++) {
+                if(this.dna[i] ==='C'|| this.dna[i] === 'G'){
+                  surviveCount++
+                    }
+                  }
+                  //calculate percentage of C or G found in a DNA strand
+                  percentage = surviveCount * 100 / this.dna.length;
+                  console.log(percentage);
+                  if(percentage >= 60) {
+                    return true;
+                  } else {
+                    return false;
+      }
+    }
+  }
+}
+
+let specimens = [];
+let x = 1; 
+//return 30 instances of pAquer
+while (specimens.length < 30) {
+  let newSpecimens = pAequorFactory( x ,mockUpStrand())
+  if (newSpecimens.willLikelySurvive() === true) {
+    specimens.push(newSpecimens);
+    x++
+  }
+ }
+  console.log(specimens);
+
+//console.log(pAequorArr);
+          
+
+/*const pAequor = pAequorFactory(1,mockUpStrand());
+console.log(pAequor.dna);
+const pAequorTwo = pAequorFactory(2,mockUpStrand());
+console.log(pAequorTwo.dna);
+pAequor.compareDNA(pAequorTwo);
+console.log(pAequor.willLikelySurvive());*/
